@@ -18,9 +18,11 @@ class Mode:
         command=['subfinder','-d',f"{self.target}",'-config','~/.config/subfinder/config.yaml','-silent']
         print(command)
         process=subprocess.Popen(command,shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True)
-        for line in iter(process.stdout.readline(),''):
-            print(line.strip())
-        process.communicate()
+        output,error=process.communicate()
+        if output:
+            print(sys.stdout.read())
+        if error:
+            print(sys.stdout.read())
 
     def assetfinder(self):
         print(colored("[+] Running assetfinder on {}".format(self.target), "blue"))
