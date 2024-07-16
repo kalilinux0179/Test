@@ -15,9 +15,10 @@ class Mode:
 
     def subfinder(self):
         print(colored("[+] Running subfinder on {}".format(self.target), "green"))
-        command=[]
-        process=subprocess.Popen(['subfinder','-d',self.target,'-config','~/.config/subfinder/config.yaml','-silent'],stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True)
-        for line in iter(process.stdout.readline,''):
+        command=['subfinder','-d',f"{self.target}",'-config','~/.config/subfinder/config.yaml','-silent']
+        print(command)
+        process=subprocess.Popen(command,shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True)
+        for line in iter(process.stdout.readline(),''):
             print(line.strip())
         process.communicate()
 
