@@ -15,14 +15,31 @@ class Mode:
 
     def subfinder(self):
         print(colored("[+] Running subfinder on {}".format(self.target), "green"))
-        command=['subfinder','-d',f"{self.target}",'-config','~/.config/subfinder/config.yaml','-silent']
-        print(command)
-        process=subprocess.Popen(command,shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True)
-        output,error=process.communicate()
-        if output:
-            print(sys.stdout.read())
-        if error:
-            print(sys.stdout.read())
+        command = [
+            "subfinder",
+            "-d",
+            self.target,
+            "-config",
+            "~/.config/subfinder/config.yaml",
+            "-silent",
+        ]
+        process = subprocess.Popen(
+            command,
+            shell=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+        )
+        stdout, stderr = process.communicate()
+        if stderr:
+            print(colored(f"Error running subfinder on {self.target}: {stderr}", "red"))
+            return
+
+        if stdout:
+            for line in stdout.splitlines():
+                print(line.strip())
+        else:
+            print(colored(f"No subdomains found for {self.target}", "yellow"))
 
     def assetfinder(self):
         print(colored("[+] Running assetfinder on {}".format(self.target), "blue"))
@@ -44,6 +61,7 @@ def findSubDomains(target, modes):
             p1.subfinder()
         elif mode == "assetfinder":
             p1.assetfinder()
+
 
 def parse_arguments():
     parser = argparse.ArgumentParser(
@@ -72,7 +90,7 @@ def parse_arguments():
 
 
 def main():
-    args=parse_arguments()
+    args = parse_arguments()
 
     if args.domainFile and args.modes:
         if os.path.exists(args.domainFile):
