@@ -24,8 +24,7 @@ class Mode:
             command,
             shell=True,
             stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            text=True,
+            stderr=subprocess.PIPE
         )
         stdout, stderr = process.communicate()
         if stderr:
