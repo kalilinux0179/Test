@@ -18,10 +18,7 @@ class Mode:
         command = [
             "subfinder",
             "-d",
-            self.target,
-            "-config",
-            "~/.config/subfinder/config.yaml",
-            "-silent",
+            self.target
         ]
         process = subprocess.Popen(
             command,
