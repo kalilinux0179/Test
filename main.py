@@ -50,7 +50,7 @@ def parse_arguments():
         "-modes",
         dest="modes",
         metavar="",
-        choices=["subfinder", "assetfinder", "amass", "all"],
+        choices=["subfinder", "assetfinder","asnmap", "amass", "all"],
         nargs="+",
         help="Specify Modes",
     )
