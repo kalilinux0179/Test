@@ -72,7 +72,7 @@ def findSubDomains(target, modes):
         elif mode == "assetfinder":
             p1.assetfinder()
         elif mode == "all":
-            p1.all()
+            p1.allModules()
 
 
 def parse_arguments():
