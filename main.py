@@ -88,9 +88,9 @@ class Mode:
             )
             output, error = process.communicate()
             if output:
-                print(colored(output.decode()), "green")
+                print(colored(output.decode(), "green"))
             if error:
-                sys.stderr.write(colored(error.decode()), "red")
+                sys.stderr.write(colored(error.decode(), "red"))
             with open(f"{tool_name}.txt", "a") as file:
                 file.write(output.decode())
         except subprocess.CalledProcessError as e:
@@ -114,9 +114,9 @@ class Mode:
             )
             output, error = process.communicate()
             if output:
-                print(colored(output.decode()), "green")
+                print(colored(output.decode(), "green"))
             if error:
-                sys.stderr.write(colored(error.decode()), "red")
+                sys.stderr.write(colored(error.decode(), "red"))
             with open(f"{tool_name}.txt", "a") as file:
                 file.write(output.decode())
         except subprocess.CalledProcessError as e:
@@ -140,9 +140,9 @@ class Mode:
             )
             output, error = process.communicate()
             if output:
-                print(colored(output.decode()), "green")
+                print(colored(output.decode(), "green"))
             if error:
-                sys.stderr.write(colored(error.decode()), "red")
+                sys.stderr.write(colored(error.decode(), "red"))
             with open(f"{tool_name}.txt", "a") as file:
                 file.write(output.decode())
         except subprocess.CalledProcessError as e:
@@ -168,9 +168,9 @@ class Mode:
             )
             output, error = process.communicate()
             if output:
-                print(colored(output.decode()), "green")
+                print(colored(output.decode(), "green"))
             if error:
-                sys.stderr.write(colored(error.decode()), "red")
+                sys.stderr.write(colored(error.decode(), "red"))
             with open(f"{tool_name}.txt", "a") as file:
                 file.write(output.decode())
         except subprocess.CalledProcessError as e:
@@ -210,9 +210,9 @@ class Mode:
             )
             output, error = process.communicate()
             if output:
-                print(colored(output.decode()), "green")
+                print(colored(output.decode(), "green"))
             if error:
-                sys.stderr.write(colored(error.decode()), "red")
+                sys.stderr.write(colored(error.decode(), "red"))
             with open(f"{tool_name}_passive.txt", "a") as file:
                 file.write(output.decode())
         except subprocess.CalledProcessError as e:
@@ -245,9 +245,9 @@ class Mode:
             )
             output, error = process.communicate()
             if output:
-                print(colored(output.decode()), "green")
+                print(colored(output.decode(), "green"))
             if error:
-                sys.stderr.write(colored(error.decode()), "red")
+                sys.stderr.write(colored(error.decode(), "red"))
             with open(f"{tool_name}_active.txt", "a") as file:
                 file.write(output.decode())
         except subprocess.CalledProcessError as e:
@@ -276,9 +276,9 @@ class Mode:
             )
             output, error = process.communicate()
             if output:
-                print(colored(output.decode()), "green")
+                print(colored(output.decode(), "green"))
             if error:
-                sys.stderr.write(colored(error.decode()), "red")
+                sys.stderr.write(colored(error.decode(), "red"))
             with open(f"{tool_name}.txt", "a") as file:
                 file.write(output.decode())
         except subprocess.CalledProcessError as e:
@@ -302,9 +302,9 @@ class Mode:
             )
             output, error = process.communicate()
             if output:
-                print(colored(output.decode()), "green")
+                print(colored(output.decode(), "green"))
             if error:
-                sys.stderr.write(colored(error.decode()), "red")
+                sys.stderr.write(colored(error.decode(), "red"))
             with open(f"{tool_name}.txt", "a") as file:
                 file.write(output.decode())
         except subprocess.CalledProcessError as e:
@@ -328,9 +328,9 @@ class Mode:
             )
             output, error = process.communicate()
             if output:
-                print(colored(output.decode()), "green")
+                print(colored(output.decode(), "green"))
             if error:
-                sys.stderr.write(colored(error.decode()), "red")
+                sys.stderr.write(colored(error.decode(), "red"))
             with open(f"{tool_name}.txt", "a") as file:
                 file.write(output.decode())
         except subprocess.CalledProcessError as e:
@@ -354,9 +354,9 @@ class Mode:
             )
             output, error = process.communicate()
             if output:
-                print(colored(output.decode()), "green")
+                print(colored(output.decode(), "green"))
             if error:
-                sys.stderr.write(colored(error.decode()), "red")
+                sys.stderr.write(colored(error.decode(), "red"))
             with open(f"{tool_name}.txt", "a") as file:
                 file.write(output.decode())
         except subprocess.CalledProcessError as e:
@@ -388,9 +388,9 @@ class Mode:
             )
             output, error = process.communicate()
             if output:
-                print(colored(output.decode()), "green")
+                print(colored(output.decode(), "green"))
             if error:
-                sys.stderr.write(colored(error.decode()), "red")
+                sys.stderr.write(colored(error.decode(), "red"))
             with open(f"{tool_name}.txt", "a") as file:
                 file.write(output.decode())
         except subprocess.CalledProcessError as e:
@@ -416,9 +416,9 @@ class Mode:
             )
             output, error = process.communicate()
             if output:
-                print(colored(output.decode()), "green")
+                print(colored(output.decode(), "green"))
             if error:
-                sys.stderr.write(colored(error.decode()), "red")
+                sys.stderr.write(colored(error.decode(), "red"))
             with open(f"{tool_name}.txt", "a") as file:
                 file.write(output.decode())
         except subprocess.CalledProcessError as e:
@@ -444,9 +444,9 @@ class Mode:
             )
             output, error = process.communicate()
             if output:
-                print(colored(output.decode()), "green")
+                print(colored(output.decode(), "green"))
             if error:
-                sys.stderr.write(colored(error.decode()), "red")
+                sys.stderr.write(colored(error.decode(), "red"))
             with open(f"{tool_name}.txt", "a") as file:
                 file.write(output.decode())
         except subprocess.CalledProcessError as e:
@@ -463,6 +463,7 @@ class Mode:
         clearScreen()
         tool_name = "alterx"
         print("comming soon...")
+
     # change here
 
     def allModules(self):
@@ -507,7 +508,7 @@ def findSubDomains(target, modes):
         elif mode == "vita":
             p1.vita()
         elif mode == "subcat":
-            #pending
+            # pending
             p1.subcat()
         elif mode == "rapiddns":
             p1.rapiddns()
@@ -518,7 +519,7 @@ def findSubDomains(target, modes):
         elif mode == "alterx":
             p1.alterx()
         elif mode == "alterx_permut":
-            #pending
+            # pending
             p1.alterxPermut()
         # change here
         elif mode == "all":
