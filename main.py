@@ -90,9 +90,9 @@ class Mode:
         try:
             process=subprocess.Popen(command,shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
             with open(f"{tool_name}.txt","a") as file:
-                for line in process:
-                    sys.stdout.write(line)
-                    file.write(line)
+                for line in process.stdout:
+                    sys.stdout.write(line.decode())
+                    file.write(line.decode())
             # output = subprocess.check_output(command, text=True)
             # print(output)
             # with open(f"{tool_name}.txt", "a") as file:
