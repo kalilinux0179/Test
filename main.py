@@ -43,7 +43,6 @@ def parse_arguments():
         "-dL",
         "-domains",
         dest="domainFile",
-        metavar="",
         help="File Containing multiple Domain Names",
     )
     parser.add_argument(
