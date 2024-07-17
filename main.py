@@ -42,6 +42,7 @@ def parse_arguments():
     parser.add_argument(
         "-dL",
         "-domains",
+        metavar="",
         dest="domainFile",
         help="File Containing multiple Domain Names",
     )
@@ -49,7 +50,6 @@ def parse_arguments():
         "-m",
         "-modes",
         dest="modes",
-        metavar="",
         # change here
         choices=[
             "subfinder",
