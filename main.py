@@ -16,8 +16,7 @@ class Mode:
     def subfinder(self):
         print(colored("[+] Running subfinder on {}".format(self.target), "green"))
         try:
-            print(self.target)
-            process=subprocess.check_output(["subfinder","-d",f"{self.target}","-silent"])
+            process=subprocess.check_output(["subfinder","-d",self.target,"-silent"])
             print(process)
         except subprocess.CalledProcessError as e: 
             print(f"Command failed with return code {e.returncode}")
