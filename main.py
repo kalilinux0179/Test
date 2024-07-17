@@ -84,13 +84,19 @@ class Mode:
         sleep(1)
         clearScreen()
         tool_name = "assetfinder"
-        command = [f"{tool_name}", "-subs-only", self.target]
+        # command = [f"{tool_name}", "-subs-only", self.target]
+        command="{} -subs-only {}".format(tool_name,self.target)
         print(colored("[+] Running {0} on {1}".format(tool_name, self.target), "green"))
         try:
-            output = subprocess.check_output(command, text=True)
-            print(output)
-            with open(f"{tool_name}.txt", "a") as file:
-                file.write(output)
+            process=subprocess.Popen(command,shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+            with open(f"{tool_name}.txt","a") as file:
+                for line in process:
+                    sys.stdout.write(line)
+                    file.write(line)
+            # output = subprocess.check_output(command, text=True)
+            # print(output)
+            # with open(f"{tool_name}.txt", "a") as file:
+            #     file.write(output)
         except subprocess.CalledProcessError as e:
             print(f"Command failed with return code {e.returncode}")
         except KeyboardInterrupt:
