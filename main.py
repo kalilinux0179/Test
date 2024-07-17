@@ -14,17 +14,28 @@ class Mode:
         self.target = target
 
     def subfinder(self):
-        print(colored("[+] Running subfinder on {}".format(self.target), "green"))
+        tool_name="subfinder"
+        command = [f"{tool_name}", "-d", self.target, "-silent"]
+        print(colored("[+] Running {0} on {1}".format(tool_name,self.target), "green"))
         try:
-            output=subprocess.check_output(["subfinder","-d",self.target,"-silent"],text=True)
+            output = subprocess.check_output(command, text=True)
             print(output)
-            with open("subfinder.txt","a") as file:
+            with open(f"{tool_name}.txt", "a") as file:
                 file.write(output)
-        except subprocess.CalledProcessError as e: 
+        except subprocess.CalledProcessError as e:
             print(f"Command failed with return code {e.returncode}")
 
     def assetfinder(self):
-        print(colored("[+] Running assetfinder on {}".format(self.target), "blue"))
+        tool_name="assetfinder"
+        command = [f"{tool_name}", "-subs-only", self.target]
+        print(colored("[+] Running {0} on {1}".format(tool_name,self.target), "green"))
+        try:
+            output = subprocess.check_output(command, text=True)
+            print(output)
+            with open(f"{tool_name}.txt", "a") as file:
+                file.write(output)
+        except subprocess.CalledProcessError as e:
+            print(f"Command failed with return code {e.returncode}")
 
 
 def processHostFile(target, modes):
@@ -47,7 +58,8 @@ def findSubDomains(target, modes):
 
 def parse_arguments():
     parser = argparse.ArgumentParser(
-        description="", formatter_class=argparse.RawDescriptionHelpFormatter
+        description="Subdomain Enumeration Tool",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
     )
     parser.add_argument(
         "-d", "-domain", dest="domainName", metavar="", help="Domain Name"
@@ -94,4 +106,17 @@ if __name__ == "__main__":
         os.system("cls")
     elif sys.platform.startswith("clear"):
         os.system("clear")
-    main()
+
+    try:
+        os.makedirs("SubDomains")
+        print(colored("[~] SubDomains Directory Created", "cyan"))
+        os.chdir("SubDomains")
+        main()
+    except OSError as e:
+        sys.stderr.write(
+            colored(f"[!] Error creating or accessing directory: {e}", "red")
+        )
+        sys.exit()
+    except Exception as e:
+        sys.stderr.write(colored(f"[!] Unexpected error: {e}", "red"))
+        sys.exit()
