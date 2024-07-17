@@ -42,8 +42,8 @@ def parse_arguments():
     parser.add_argument(
         "-dL",
         "-domains",
-        metavar="",
         dest="domainFile",
+        metavar="",
         help="File Containing multiple Domain Names",
     )
     parser.add_argument(
@@ -87,11 +87,11 @@ class Mode:
             )
             output, error = process.communicate()
             if output:
-                print(colored(output), "green")
+                print(colored(output.decode()), "green")
             if error:
-                sys.stderr.write(colored(error), "red")
+                sys.stderr.write(colored(error.decode()), "red")
             with open(f"{tool_name}.txt", "a") as file:
-                file.write(output)
+                file.write(output.decode())
         except subprocess.CalledProcessError as e:
             print(f"Command failed with return code {e.returncode}")
             sys.exit()
@@ -113,11 +113,11 @@ class Mode:
             )
             output, error = process.communicate()
             if output:
-                print(colored(output), "green")
+                print(colored(output.decode()), "green")
             if error:
-                sys.stderr.write(colored(error), "red")
+                sys.stderr.write(colored(error.decode()), "red")
             with open(f"{tool_name}.txt", "a") as file:
-                file.write(output)
+                file.write(output.decode())
         except subprocess.CalledProcessError as e:
             print(f"Command failed with return code {e.returncode}")
             sys.exit()
@@ -141,11 +141,11 @@ class Mode:
             )
             output, error = process.communicate()
             if output:
-                print(colored(output), "green")
+                print(colored(output.decode()), "green")
             if error:
-                sys.stderr.write(colored(error), "red")
+                sys.stderr.write(colored(error.decode()), "red")
             with open(f"{tool_name}.txt", "a") as file:
-                file.write(output)
+                file.write(output.decode())
         except subprocess.CalledProcessError as e:
             print(f"Command failed with return code {e.returncode}")
             sys.exit()
@@ -183,11 +183,11 @@ class Mode:
             )
             output, error = process.communicate()
             if output:
-                print(colored(output), "green")
+                print(colored(output.decode()), "green")
             if error:
-                sys.stderr.write(colored(error), "red")
+                sys.stderr.write(colored(error.decode()), "red")
             with open(f"{tool_name}_passive.txt", "a") as file:
-                file.write(output)
+                file.write(output.decode())
         except subprocess.CalledProcessError as e:
             print(f"Command failed with return code {e.returncode}")
             sys.exit()
@@ -218,11 +218,11 @@ class Mode:
             )
             output, error = process.communicate()
             if output:
-                print(colored(output), "green")
+                print(colored(output.decode()), "green")
             if error:
-                sys.stderr.write(colored(error), "red")
+                sys.stderr.write(colored(error.decode()), "red")
             with open(f"{tool_name}_active.txt", "a") as file:
-                file.write(output)
+                file.write(output.decode())
         except subprocess.CalledProcessError as e:
             print(f"Command failed with return code {e.returncode}")
             sys.exit()
@@ -249,11 +249,11 @@ class Mode:
             )
             output, error = process.communicate()
             if output:
-                print(colored(output), "green")
+                print(colored(output.decode()), "green")
             if error:
-                sys.stderr.write(colored(error), "red")
+                sys.stderr.write(colored(error.decode()), "red")
             with open(f"{tool_name}.txt", "a") as file:
-                file.write(output)
+                file.write(output.decode())
         except subprocess.CalledProcessError as e:
             print(f"Command failed with return code {e.returncode}")
             sys.exit()
@@ -275,11 +275,11 @@ class Mode:
             )
             output, error = process.communicate()
             if output:
-                print(colored(output), "green")
+                print(colored(output.decode()), "green")
             if error:
-                sys.stderr.write(colored(error), "red")
+                sys.stderr.write(colored(error.decode()), "red")
             with open(f"{tool_name}.txt", "a") as file:
-                file.write(output)
+                file.write(output.decode())
         except subprocess.CalledProcessError as e:
             print(f"Command failed with return code {e.returncode}")
             sys.exit()
@@ -301,11 +301,11 @@ class Mode:
             )
             output, error = process.communicate()
             if output:
-                print(colored(output), "green")
+                print(colored(output.decode()), "green")
             if error:
-                sys.stderr.write(colored(error), "red")
+                sys.stderr.write(colored(error.decode()), "red")
             with open(f"{tool_name}.txt", "a") as file:
-                file.write(output)
+                file.write(output.decode())
         except subprocess.CalledProcessError as e:
             print(f"Command failed with return code {e.returncode}")
             sys.exit()
@@ -327,11 +327,11 @@ class Mode:
             )
             output, error = process.communicate()
             if output:
-                print(colored(output), "green")
+                print(colored(output.decode()), "green")
             if error:
-                sys.stderr.write(colored(error), "red")
+                sys.stderr.write(colored(error.decode()), "red")
             with open(f"{tool_name}.txt", "a") as file:
-                file.write(output)
+                file.write(output.decode())
         except subprocess.CalledProcessError as e:
             print(f"Command failed with return code {e.returncode}")
             sys.exit()
@@ -361,11 +361,11 @@ class Mode:
             )
             output, error = process.communicate()
             if output:
-                print(colored(output), "green")
+                print(colored(output.decode()), "green")
             if error:
-                sys.stderr.write(colored(error), "red")
+                sys.stderr.write(colored(error.decode()), "red")
             with open(f"{tool_name}.txt", "a") as file:
-                file.write(output)
+                file.write(output.decode())
         except subprocess.CalledProcessError as e:
             print(f"Command failed with return code {e.returncode}")
             sys.exit()
@@ -389,11 +389,11 @@ class Mode:
             )
             output, error = process.communicate()
             if output:
-                print(colored(output), "green")
+                print(colored(output.decode()), "green")
             if error:
-                sys.stderr.write(colored(error), "red")
+                sys.stderr.write(colored(error.decode()), "red")
             with open(f"{tool_name}.txt", "a") as file:
-                file.write(output)
+                file.write(output.decode())
         except subprocess.CalledProcessError as e:
             print(f"Command failed with return code {e.returncode}")
             sys.exit()
@@ -417,11 +417,11 @@ class Mode:
             )
             output, error = process.communicate()
             if output:
-                print(colored(output), "green")
+                print(colored(output.decode()), "green")
             if error:
-                sys.stderr.write(colored(error), "red")
+                sys.stderr.write(colored(error.decode()), "red")
             with open(f"{tool_name}.txt", "a") as file:
-                file.write(output)
+                file.write(output.decode())
         except subprocess.CalledProcessError as e:
             print(f"Command failed with return code {e.returncode}")
             sys.exit()
@@ -437,6 +437,15 @@ class Mode:
         sleep(1)
         self.subfinder()
         self.assetfinder()
+        self.asnmap()
+        self.amass()
+        self.chaos()
+        self.findomain()
+        self.vita()
+        self.subcat()
+        self.rapiddns()
+        self.crtsh()
+        self.jldc()
 
 
 def processHostFile(target, modes):
