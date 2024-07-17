@@ -14,9 +14,14 @@ class Mode:
         self.target = target
 
     def subfinder(self):
-        tool_name="subfinder"
+        sleep(1)
+        if sys.platform.startswith("win"):
+            os.system("cls")
+        elif sys.platform.startswith("clear"):
+            os.system("clear")
+        tool_name = "subfinder"
         command = [f"{tool_name}", "-d", self.target, "-silent"]
-        print(colored("[+] Running {0} on {1}".format(tool_name,self.target), "green"))
+        print(colored("[+] Running {0} on {1}".format(tool_name, self.target), "green"))
         try:
             output = subprocess.check_output(command, text=True)
             print(output)
@@ -24,11 +29,21 @@ class Mode:
                 file.write(output)
         except subprocess.CalledProcessError as e:
             print(f"Command failed with return code {e.returncode}")
+        except KeyboardInterrupt:
+            sys.stderr.write("[!] Pressed CTRL+C")
+            sleep(0.5)
+            sys.stderr.write("[!] Exiting...")
+            sys.exit()
 
     def assetfinder(self):
-        tool_name="assetfinder"
+        sleep(1)
+        if sys.platform.startswith("win"):
+            os.system("cls")
+        elif sys.platform.startswith("clear"):
+            os.system("clear")
+        tool_name = "assetfinder"
         command = [f"{tool_name}", "-subs-only", self.target]
-        print(colored("[+] Running {0} on {1}".format(tool_name,self.target), "green"))
+        print(colored("[+] Running {0} on {1}".format(tool_name, self.target), "green"))
         try:
             output = subprocess.check_output(command, text=True)
             print(output)
@@ -36,6 +51,11 @@ class Mode:
                 file.write(output)
         except subprocess.CalledProcessError as e:
             print(f"Command failed with return code {e.returncode}")
+        except KeyboardInterrupt:
+            sys.stderr.write("[!] Pressed CTRL+C")
+            sleep(0.5)
+            sys.stderr.write("[!] Exiting...")
+            sys.exit()
 
 
 def processHostFile(target, modes):
