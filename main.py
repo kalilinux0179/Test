@@ -65,15 +65,20 @@ class Mode:
         sleep(1)
         clearScreen()
         tool_name = "subfinder"
-        command = [f"{tool_name}", "-d", self.target, "-silent"]
+        command = "{} -d {} -silent".format(tool_name, self.target)
         print(colored("[+] Running {0} on {1}".format(tool_name, self.target), "green"))
         try:
-            output = subprocess.check_output(command, text=True)
-            print(output)
+            process = subprocess.Popen(
+                command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE
+            )
             with open(f"{tool_name}.txt", "a") as file:
-                file.write(output)
+                for line in process.stdout:
+                    sys.stdout.write(colored(line.decode(), "yellow"))
+                    file.write(line.decode())
+            process.communicate()
         except subprocess.CalledProcessError as e:
             print(f"Command failed with return code {e.returncode}")
+            sys.exit()
         except KeyboardInterrupt:
             sys.stderr.write("[!] Pressed CTRL+C")
             sleep(0.5)
@@ -84,21 +89,20 @@ class Mode:
         sleep(1)
         clearScreen()
         tool_name = "assetfinder"
-        # command = [f"{tool_name}", "-subs-only", self.target]
-        command="{} -subs-only {}".format(tool_name,self.target)
+        command = "{} -subs-only {}".format(tool_name, self.target)
         print(colored("[+] Running {0} on {1}".format(tool_name, self.target), "green"))
         try:
-            process=subprocess.Popen(command,shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
-            with open(f"{tool_name}.txt","a") as file:
+            process = subprocess.Popen(
+                command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE
+            )
+            with open(f"{tool_name}.txt", "a") as file:
                 for line in process.stdout:
-                    sys.stdout.write(line.decode())
+                    sys.stdout.write(colored(line.decode(), "yellow"))
                     file.write(line.decode())
-            # output = subprocess.check_output(command, text=True)
-            # print(output)
-            # with open(f"{tool_name}.txt", "a") as file:
-            #     file.write(output)
+            process.communicate()
         except subprocess.CalledProcessError as e:
             print(f"Command failed with return code {e.returncode}")
+            sys.exit()
         except KeyboardInterrupt:
             sys.stderr.write("[!] Pressed CTRL+C")
             sleep(0.5)
@@ -117,12 +121,14 @@ class Mode:
             process = subprocess.Popen(
                 command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE
             )
-
-            for line in process.stdout:
-                sys.stdout.write(line)
+            with open(f"{tool_name}.txt", "a") as file:
+                for line in process.stdout:
+                    sys.stdout.write(colored(line.decode(), "yellow"))
+                    file.write(line.decode())
             process.communicate()
         except subprocess.CalledProcessError as e:
             print(f"Command failed with return code {e.returncode}")
+            sys.exit()
         except KeyboardInterrupt:
             sys.stderr.write("[!] Pressed CTRL+C")
             sleep(0.5)
@@ -133,16 +139,99 @@ class Mode:
         sleep(1)
         clearScreen()
         tool_name = "amass"
-        print(colored("[+] Running {0} Passive on {1}".format(tool_name.capitalize(), self.target), "green"))
+        print(
+            colored(
+                "[+] Running {0} Passive on {1}".format(
+                    tool_name.capitalize(), self.target
+                ),
+                "green",
+            )
+        )
+        # amass passive
         try:
-            amass_passive_command="{0} enum -passive -d {1}".format(tool_name,self.target)
-            process=subprocess.Popen(amass_passive_command,shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
-            with open("amass_passive.txt","a") as file:
+            amass_passive_command = "{0} enum -passive -d {1} -silent".format(
+                tool_name, self.target
+            )
+            process = subprocess.Popen(
+                amass_passive_command,
+                shell=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+            )
+            with open("amass_passive.txt", "a") as file:
                 for line in process.stdout:
-                    sys.stdout.write()
-                    file.write(line)
-        except :
-            pass
+                    sys.stdout.write(colored(line.decode(), "yellow"))
+                    file.write(line.decode())
+            process.communicate()
+        except subprocess.CalledProcessError as e:
+            print(f"Command failed with return code {e.returncode}")
+            sys.exit()
+        except KeyboardInterrupt:
+            sys.stderr.write("[!] Pressed CTRL+C")
+            sleep(0.5)
+            sys.stderr.write("[!] Exiting...")
+            sys.exit()
+
+        print(
+            colored(
+                "[+] Running {0} Active on {1}".format(
+                    tool_name.capitalize(), self.target
+                ),
+                "green",
+            )
+        )
+        # amass active
+        try:
+            amass_active_command = "{0} enum -active -d {1} -timeout 120 -config ~/.config/amass/datasources.yaml -silent".format(
+                tool_name, self.target
+            )
+            process = subprocess.Popen(
+                amass_passive_command,
+                shell=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+            )
+            with open("amass_active.txt", "a") as file:
+                for line in process.stdout:
+                    sys.stdout.write(colored(line.decode(), "yellow"))
+                    file.write(line.decode())
+            process.communicate()
+        except subprocess.CalledProcessError as e:
+            print(f"Command failed with return code {e.returncode}")
+            sys.exit()
+        except KeyboardInterrupt:
+            sys.stderr.write("[!] Pressed CTRL+C")
+            sleep(0.5)
+            sys.stderr.write("[!] Exiting...")
+            sys.exit()
+        print(
+            colored(
+                "[+] Getting only Domains from Amass Passive and Amass Active", "green"
+            )
+        )
+        # getting only domains from amsass
+        try:
+            print()
+            amass_output_command = "cat amass_passive.txt amass_active.txt | grep -oE '[\.a-zA-Z0-9-]+\.tesla.com' | tee -a amass.txt"
+            process = subprocess.Popen(
+                amass_output_command,
+                shell=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+            )
+            with open(f"{tool_name}", "a") as file:
+                for line in process.stdout:
+                    sys.stdout.write(colored(line.decode), "yellow")
+                    file.write(line.decode())
+            process.communicate()
+        except subprocess.CalledProcessError as e:
+            print(f"Command failed with return code {e.returncode}")
+            sys.exit()
+        except KeyboardInterrupt:
+            sys.stderr.write("[!] Pressed CTRL+C")
+            sleep(0.5)
+            sys.stderr.write("[!] Exiting...")
+            sys.exit()
 
     def allModules(self):
         sleep(1)
