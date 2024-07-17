@@ -48,7 +48,7 @@ class Mode:
             sleep(0.5)
             sys.stderr.write("[!] Exiting...")
             sys.exit()
-    
+
     def allModules(self):
         sleep(1)
         self.subfinder()
@@ -71,7 +71,7 @@ def findSubDomains(target, modes):
             p1.subfinder()
         elif mode == "assetfinder":
             p1.assetfinder()
-        elif mode=="all":
+        elif mode == "all":
             p1.all()
 
 
@@ -99,13 +99,21 @@ def parse_arguments():
         nargs="+",
         help="Specify Modes",
     )
-    parser.add_argument(
-        "-all",
-        dest="all",
-        metavar="",
-        help="Run all Modulues"
-    )
+    parser.add_argument("-all", dest="all", metavar="", help="Run all Modulues")
     return parser.parse_args()
+
+
+def createDirectory(directory):
+    try:
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+            print(colored("[-] {} Directory Created".format(directory), "cyan"))
+            os.chdir(directory)
+        else:
+            os.chdir(directory)
+    except OSError:
+        sys.stderr.write(colored("[-] Unable to create {}".format(directory), "red"))
+        sys.stderr.write(colored("Exiting...", "red"))
 
 
 def main():
@@ -131,17 +139,4 @@ if __name__ == "__main__":
         os.system("cls")
     elif sys.platform.startswith("clear"):
         os.system("clear")
-
-    try:
-        os.makedirs("SubDomains")
-        print(colored("[~] SubDomains Directory Created", "cyan"))
-        os.chdir("SubDomains")
-        main()
-    except OSError as e:
-        sys.stderr.write(
-            colored(f"[!] Error creating or accessing directory: {e}", "red")
-        )
-        sys.exit()
-    except Exception as e:
-        sys.stderr.write(colored(f"[!] Unexpected error: {e}", "red"))
-        sys.exit()
+    createDirectory("SubDomains")
