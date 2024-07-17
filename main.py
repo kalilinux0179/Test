@@ -111,9 +111,9 @@ class Mode:
             process = subprocess.Popen(
                 command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE
             )
-            sys.stdout.write(process.stdout)
+            sys.stdout.write(process.stdout())
             with open(f"{tool_name}.txt", "a") as file:
-                file.write(process.stdout)
+                file.write(process.stdout())
             process.communicate()
         except subprocess.CalledProcessError as e:
             print(f"Command failed with return code {e.returncode}")
