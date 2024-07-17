@@ -6,6 +6,7 @@ from time import sleep
 import subprocess
 
 hostList = []
+chaos_key = "77548576-370c-4b63-81dc-bd62b278b7e9"
 
 
 def createDirectory(directory):
@@ -50,7 +51,21 @@ def parse_arguments():
         "-modes",
         dest="modes",
         metavar="",
-        choices=["subfinder", "assetfinder", "asnmap", "amass", "all"],
+        # change here
+        choices=[
+            "subfinder",
+            "assetfinder",
+            "asnmap",
+            "amass",
+            "chaos",
+            "findomain",
+            "vita",
+            "subcat",
+            "rapiddns",
+            "crtsh",
+            "jldc",
+            "all",
+        ],
         nargs="+",
         help="Specify Modes",
     )
@@ -71,11 +86,13 @@ class Mode:
             process = subprocess.Popen(
                 command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE
             )
+            output, error = process.communicate()
+            if output:
+                print(colored(output), "green")
+            if error:
+                sys.stderr.write(colored(error), "red")
             with open(f"{tool_name}.txt", "a") as file:
-                for line in process.stdout:
-                    sys.stdout.write(colored(line.decode(), "yellow"))
-                    file.write(line.decode())
-            process.communicate()
+                file.write(output)
         except subprocess.CalledProcessError as e:
             print(f"Command failed with return code {e.returncode}")
             sys.exit()
@@ -95,11 +112,13 @@ class Mode:
             process = subprocess.Popen(
                 command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE
             )
+            output, error = process.communicate()
+            if output:
+                print(colored(output), "green")
+            if error:
+                sys.stderr.write(colored(error), "red")
             with open(f"{tool_name}.txt", "a") as file:
-                for line in process.stdout:
-                    sys.stdout.write(colored(line.decode(), "yellow"))
-                    file.write(line.decode())
-            process.communicate()
+                file.write(output)
         except subprocess.CalledProcessError as e:
             print(f"Command failed with return code {e.returncode}")
             sys.exit()
@@ -121,11 +140,13 @@ class Mode:
             process = subprocess.Popen(
                 command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE
             )
+            output, error = process.communicate()
+            if output:
+                print(colored(output), "green")
+            if error:
+                sys.stderr.write(colored(error), "red")
             with open(f"{tool_name}.txt", "a") as file:
-                for line in process.stdout:
-                    sys.stdout.write(colored(line.decode(), "yellow"))
-                    file.write(line.decode())
-            process.communicate()
+                file.write(output)
         except subprocess.CalledProcessError as e:
             print(f"Command failed with return code {e.returncode}")
             sys.exit()
@@ -139,18 +160,21 @@ class Mode:
         sleep(1)
         clearScreen()
         tool_name = "amass"
-        print(
-            colored(
-                "[+] Running {0} Passive on {1}".format(
-                    tool_name.capitalize(), self.target
-                ),
-                "green",
-            )
-        )
+
         # amass passive
         try:
-            amass_passive_command = "{0} enum -passive -d {1} -silent".format(
-                tool_name, self.target
+            print(
+                colored(
+                    "[+] Running {0} Passive on {1}".format(
+                        tool_name.capitalize(), self.target
+                    ),
+                    "green",
+                )
+            )
+            amass_passive_command = (
+                "{0} enum -passive -d {1} -timeout 60 -silent".format(
+                    tool_name, self.target
+                )
             )
             process = subprocess.Popen(
                 amass_passive_command,
@@ -158,11 +182,13 @@ class Mode:
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
             )
-            with open("amass_passive.txt", "a") as file:
-                for line in process.stdout:
-                    sys.stdout.write(colored(line.decode(), "yellow"))
-                    file.write(line.decode())
-            process.communicate()
+            output, error = process.communicate()
+            if output:
+                print(colored(output), "green")
+            if error:
+                sys.stderr.write(colored(error), "red")
+            with open(f"{tool_name}_passive.txt", "a") as file:
+                file.write(output)
         except subprocess.CalledProcessError as e:
             print(f"Command failed with return code {e.returncode}")
             sys.exit()
@@ -172,17 +198,17 @@ class Mode:
             sys.stderr.write("[!] Exiting...")
             sys.exit()
 
-        print(
-            colored(
-                "[+] Running {0} Active on {1}".format(
-                    tool_name.capitalize(), self.target
-                ),
-                "green",
-            )
-        )
         # amass active
         try:
-            amass_active_command = "{0} enum -active -d {1} -timeout 120 -config ~/.config/amass/datasources.yaml -silent".format(
+            print(
+                colored(
+                    "[+] Running {0} Active on {1}".format(
+                        tool_name.capitalize(), self.target
+                    ),
+                    "green",
+                )
+            )
+            amass_active_command = "{0} enum -active -d {1} -timeout 60 -config ~/.config/amass/datasources.yaml -silent".format(
                 tool_name, self.target
             )
             process = subprocess.Popen(
@@ -191,11 +217,13 @@ class Mode:
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
             )
-            with open("amass_active.txt", "a") as file:
-                for line in process.stdout:
-                    sys.stdout.write(colored(line.decode(), "yellow"))
-                    file.write(line.decode())
-            process.communicate()
+            output, error = process.communicate()
+            if output:
+                print(colored(output), "green")
+            if error:
+                sys.stderr.write(colored(error), "red")
+            with open(f"{tool_name}_active.txt", "a") as file:
+                file.write(output)
         except subprocess.CalledProcessError as e:
             print(f"Command failed with return code {e.returncode}")
             sys.exit()
@@ -204,14 +232,15 @@ class Mode:
             sleep(0.5)
             sys.stderr.write("[!] Exiting...")
             sys.exit()
-        print(
-            colored(
-                "[+] Getting only Domains from Amass Passive and Amass Active", "green"
-            )
-        )
+
         # getting only domains from amsass
         try:
-            print()
+            print(
+                colored(
+                    "[+] Getting only Domains from Amass Passive and Amass Active",
+                    "green",
+                )
+            )
             amass_output_command = "cat amass_passive.txt amass_active.txt | grep -oE '[\.a-zA-Z0-9-]+\.tesla.com' | tee -a amass.txt"
             process = subprocess.Popen(
                 amass_output_command,
@@ -219,11 +248,13 @@ class Mode:
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
             )
-            with open(f"{tool_name}", "a") as file:
-                for line in process.stdout:
-                    sys.stdout.write(colored(line.decode), "yellow")
-                    file.write(line.decode())
-            process.communicate()
+            output, error = process.communicate()
+            if output:
+                print(colored(output), "green")
+            if error:
+                sys.stderr.write(colored(error), "red")
+            with open(f"{tool_name}.txt", "a") as file:
+                file.write(output)
         except subprocess.CalledProcessError as e:
             print(f"Command failed with return code {e.returncode}")
             sys.exit()
@@ -232,6 +263,176 @@ class Mode:
             sleep(0.5)
             sys.stderr.write("[!] Exiting...")
             sys.exit()
+
+    def chaos(self):
+        sleep(1)
+        clearScreen()
+        tool_name = "chaos"
+        command = "{0} -d {1} -key {2}".format(tool_name, self.target, chaos_key)
+        print(colored("[+] Running {0} on {1}".format(tool_name, self.target), "green"))
+        try:
+            process = subprocess.Popen(
+                command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE
+            )
+            output, error = process.communicate()
+            if output:
+                print(colored(output), "green")
+            if error:
+                sys.stderr.write(colored(error), "red")
+            with open(f"{tool_name}.txt", "a") as file:
+                file.write(output)
+        except subprocess.CalledProcessError as e:
+            print(f"Command failed with return code {e.returncode}")
+            sys.exit()
+        except KeyboardInterrupt:
+            sys.stderr.write("[!] Pressed CTRL+C")
+            sleep(0.5)
+            sys.stderr.write("[!] Exiting...")
+            sys.exit()
+
+    def findomain(self):
+        sleep(1)
+        clearScreen()
+        tool_name = "findomain"
+        command = "{0} --target {1} --quiet".format(tool_name, self.target)
+        print(colored("[+] Running {0} on {1}".format(tool_name, self.target), "green"))
+        try:
+            process = subprocess.Popen(
+                command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE
+            )
+            output, error = process.communicate()
+            if output:
+                print(colored(output), "green")
+            if error:
+                sys.stderr.write(colored(error), "red")
+            with open(f"{tool_name}.txt", "a") as file:
+                file.write(output)
+        except subprocess.CalledProcessError as e:
+            print(f"Command failed with return code {e.returncode}")
+            sys.exit()
+        except KeyboardInterrupt:
+            sys.stderr.write("[!] Pressed CTRL+C")
+            sleep(0.5)
+            sys.stderr.write("[!] Exiting...")
+            sys.exit()
+
+    def vita(self):
+        sleep(1)
+        clearScreen()
+        tool_name = "vita"
+        command = "{0} -d {1}".format(tool_name, self.target)
+        print(colored("[+] Running {0} on {1}".format(tool_name, self.target), "green"))
+        try:
+            process = subprocess.Popen(
+                command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE
+            )
+            output, error = process.communicate()
+            if output:
+                print(colored(output), "green")
+            if error:
+                sys.stderr.write(colored(error), "red")
+            with open(f"{tool_name}.txt", "a") as file:
+                file.write(output)
+        except subprocess.CalledProcessError as e:
+            print(f"Command failed with return code {e.returncode}")
+            sys.exit()
+        except KeyboardInterrupt:
+            sys.stderr.write("[!] Pressed CTRL+C")
+            sleep(0.5)
+            sys.stderr.write("[!] Exiting...")
+            sys.exit()
+
+    def subcat(self):
+        sleep(1)
+        clearScreen()
+        tool_name = "subcat"
+        print("coming soon.")
+
+    def rapiddns(self):
+        sleep(1)
+        clearScreen()
+        tool_name = "rapiddns"
+        command = 'curl -s "https://rapiddns.io/subdomain/{0}?full=1" | grep -oE "[\.a-zA-Z0-9-]+\.{0} | sort -u'.format(
+            self.target
+        )
+        print(colored("[+] Running {0} on {1}".format(tool_name, self.target), "green"))
+        try:
+            process = subprocess.Popen(
+                command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE
+            )
+            output, error = process.communicate()
+            if output:
+                print(colored(output), "green")
+            if error:
+                sys.stderr.write(colored(error), "red")
+            with open(f"{tool_name}.txt", "a") as file:
+                file.write(output)
+        except subprocess.CalledProcessError as e:
+            print(f"Command failed with return code {e.returncode}")
+            sys.exit()
+        except KeyboardInterrupt:
+            sys.stderr.write("[!] Pressed CTRL+C")
+            sleep(0.5)
+            sys.stderr.write("[!] Exiting...")
+            sys.exit()
+
+    def crtsh(self):
+        sleep(1)
+        clearScreen()
+        tool_name = "crtsh"
+        command = "curl -s \"https://crt.sh/?q=%25.{}&group=none&output=json\" | jq .[].common_name | sed -e 's/\"$//' -e 's/^\"//'".format(
+            self.target
+        )
+        print(colored("[+] Running {0} on {1}".format(tool_name, self.target), "green"))
+        try:
+            process = subprocess.Popen(
+                command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE
+            )
+            output, error = process.communicate()
+            if output:
+                print(colored(output), "green")
+            if error:
+                sys.stderr.write(colored(error), "red")
+            with open(f"{tool_name}.txt", "a") as file:
+                file.write(output)
+        except subprocess.CalledProcessError as e:
+            print(f"Command failed with return code {e.returncode}")
+            sys.exit()
+        except KeyboardInterrupt:
+            sys.stderr.write("[!] Pressed CTRL+C")
+            sleep(0.5)
+            sys.stderr.write("[!] Exiting...")
+            sys.exit()
+
+    def jldc(self):
+        sleep(1)
+        clearScreen()
+        tool_name = "jldc"
+        command = 'curl -s https://jldc.me/anubis/subdomains/{0} | jq -r ".[]"'.format(
+            self.target
+        )
+        print(colored("[+] Running {0} on {1}".format(tool_name, self.target), "green"))
+        try:
+            process = subprocess.Popen(
+                command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE
+            )
+            output, error = process.communicate()
+            if output:
+                print(colored(output), "green")
+            if error:
+                sys.stderr.write(colored(error), "red")
+            with open(f"{tool_name}.txt", "a") as file:
+                file.write(output)
+        except subprocess.CalledProcessError as e:
+            print(f"Command failed with return code {e.returncode}")
+            sys.exit()
+        except KeyboardInterrupt:
+            sys.stderr.write("[!] Pressed CTRL+C")
+            sleep(0.5)
+            sys.stderr.write("[!] Exiting...")
+            sys.exit()
+
+    # change here
 
     def allModules(self):
         sleep(1)
@@ -259,6 +460,21 @@ def findSubDomains(target, modes):
             p1.asnmap()
         elif mode == "amass":
             p1.amass()
+        elif mode == "chaos":
+            p1.chaos()
+        elif mode == "findomain":
+            p1.findomain()
+        elif mode == "vita":
+            p1.vita()
+        elif mode == "subcat":
+            p1.subcat()
+        elif mode == "rapiddns":
+            p1.rapiddns()
+        elif mode == "crtsh":
+            p1.crtsh()
+        elif mode == "jldc":
+            p1.jldc()
+        # change here
         elif mode == "all":
             p1.allModules()
 
