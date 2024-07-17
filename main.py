@@ -99,7 +99,6 @@ def parse_arguments():
         nargs="+",
         help="Specify Modes",
     )
-    parser.add_argument("-all", dest="all", metavar="", help="Run all Modulues")
     return parser.parse_args()
 
 
