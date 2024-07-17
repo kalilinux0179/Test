@@ -15,6 +15,7 @@ class Mode:
 
     def subfinder(self):
         sleep(1)
+        clearScreen()
         tool_name = "subfinder"
         command = [f"{tool_name}", "-d", self.target, "-silent"]
         print(colored("[+] Running {0} on {1}".format(tool_name, self.target), "green"))
@@ -33,6 +34,7 @@ class Mode:
 
     def assetfinder(self):
         sleep(1)
+        clearScreen()
         tool_name = "assetfinder"
         command = [f"{tool_name}", "-subs-only", self.target]
         print(colored("[+] Running {0} on {1}".format(tool_name, self.target), "green"))
@@ -116,6 +118,12 @@ def createDirectory(directory):
         sys.stderr.write(colored("[-] Unable to create {}".format(directory), "red"))
         sys.stderr.write(colored("Exiting...", "red"))
 
+def clearScreen():
+    if sys.platform.startswith("win"):
+        os.system("cls")
+    elif sys.platform.startswith("linux") or sys.platform.startswith("darwin"):
+        os.system("clear")
+
 
 def main():
     args = parse_arguments()
@@ -136,9 +144,6 @@ def main():
 
 
 if __name__ == "__main__":
-    if sys.platform.startswith("win"):
-        os.system("cls")
-    elif sys.platform.startswith("clear"):
-        os.system("clear")
+    clearScreen()
     if createDirectory("SubDomains"):
         main()
