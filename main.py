@@ -1,4 +1,3 @@
-#!/usr/bin/python
 import argparse
 import sys
 import os
@@ -531,6 +530,7 @@ def main():
 
     if args.domainFile and args.modes:
         if os.path.exists(args.domainFile):
+            createDirectory("SubDomains")
             processHostFile(args.domainFile, args.modes)
         else:
             sys.stderr.write(
@@ -538,6 +538,7 @@ def main():
             )
             sys.exit()
     elif args.domainName and args.modes:
+        createDirectory("SubDomains")
         findSubDomains(args.domainName, args.modes)
         sys.exit()
     else:
@@ -546,5 +547,4 @@ def main():
 
 if __name__ == "__main__":
     clearScreen()
-    if createDirectory("SubDomains"):
-        main()
+    main()
