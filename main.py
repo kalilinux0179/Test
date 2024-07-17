@@ -15,27 +15,12 @@ class Mode:
 
     def subfinder(self):
         print(colored("[+] Running subfinder on {}".format(self.target), "green"))
-        command = [
-            "subfinder",
-            "-d",
-            self.target
-        ]
-        process = subprocess.Popen(
-            command,
-            shell=True,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE
-        )
-        stdout, stderr = process.communicate()
-        if stderr:
-            print(colored(f"Error running subfinder on {self.target}: {stderr}", "red"))
-            return
-
-        if stdout:
-            for line in stdout.splitlines():
-                print(line.strip())
-        else:
-            print(colored(f"No subdomains found for {self.target}", "yellow"))
+        try:
+            print(self.target)
+            process=subprocess.check_output(["subfinder","-d",self.target,"-silent"])
+            print(process)
+        except subprocess.CalledProcessError as e: 
+            print(f"Command failed with return code {e.returncode}")
 
     def assetfinder(self):
         print(colored("[+] Running assetfinder on {}".format(self.target), "blue"))
