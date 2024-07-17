@@ -6,7 +6,7 @@ from time import sleep
 import subprocess
 
 hostList = []
-chaos_key = "77548576-370c-4b63-81dc-bd62b278b7e9"
+chaos_key = ""
 
 
 def createDirectory(directory):
