@@ -50,7 +50,7 @@ def parse_arguments():
         "-modes",
         dest="modes",
         metavar="",
-        choices=["subfinder", "assetfinder","asnmap", "amass", "all"],
+        choices=["subfinder", "assetfinder", "asnmap", "amass", "all"],
         nargs="+",
         help="Specify Modes",
     )
@@ -111,7 +111,7 @@ class Mode:
             process = subprocess.Popen(
                 command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE
             )
-            
+
             for line in process.stdout:
                 sys.stdout.write(line)
             process.communicate()
@@ -124,7 +124,19 @@ class Mode:
             sys.exit()
 
     def amass(self):
-        pass
+        sleep(1)
+        clearScreen()
+        tool_name = "amass"
+        print(colored("[+] Running {0} Passive on {1}".format(tool_name.capitalize(), self.target), "green"))
+        try:
+            amass_passive_command="{0} enum -passive -d {1}".format(tool_name,self.target)
+            process=subprocess.Popen(amass_passive_command,shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+            with open("amass_passive.txt","a") as file:
+                for line in process.stdout:
+                    sys.stdout.write()
+                    file.write(line)
+        except :
+            pass
 
     def allModules(self):
         sleep(1)
