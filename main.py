@@ -15,10 +15,6 @@ class Mode:
 
     def subfinder(self):
         sleep(1)
-        if sys.platform.startswith("win"):
-            os.system("cls")
-        elif sys.platform.startswith("clear"):
-            os.system("clear")
         tool_name = "subfinder"
         command = [f"{tool_name}", "-d", self.target, "-silent"]
         print(colored("[+] Running {0} on {1}".format(tool_name, self.target), "green"))
@@ -37,10 +33,6 @@ class Mode:
 
     def assetfinder(self):
         sleep(1)
-        if sys.platform.startswith("win"):
-            os.system("cls")
-        elif sys.platform.startswith("clear"):
-            os.system("clear")
         tool_name = "assetfinder"
         command = [f"{tool_name}", "-subs-only", self.target]
         print(colored("[+] Running {0} on {1}".format(tool_name, self.target), "green"))
@@ -56,6 +48,11 @@ class Mode:
             sleep(0.5)
             sys.stderr.write("[!] Exiting...")
             sys.exit()
+    
+    def allModules(self):
+        sleep(1)
+        self.subfinder()
+        self.assetfinder()
 
 
 def processHostFile(target, modes):
@@ -74,6 +71,8 @@ def findSubDomains(target, modes):
             p1.subfinder()
         elif mode == "assetfinder":
             p1.assetfinder()
+        elif mode=="all":
+            p1.all()
 
 
 def parse_arguments():
@@ -99,6 +98,12 @@ def parse_arguments():
         choices=["subfinder", "assetfinder"],
         nargs="+",
         help="Specify Modes",
+    )
+    parser.add_argument(
+        "-all",
+        dest="all",
+        metavar="",
+        help="Run all Modulues"
     )
     return parser.parse_args()
 
