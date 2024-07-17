@@ -63,6 +63,7 @@ def parse_arguments():
             "rapiddns",
             "crtsh",
             "jldc",
+            "alterx_permut",
             "all",
         ],
         nargs="+",
@@ -106,6 +107,32 @@ class Mode:
         clearScreen()
         tool_name = "assetfinder"
         command = "{} -subs-only {}".format(tool_name, self.target)
+        print(colored("[+] Running {0} on {1}".format(tool_name, self.target), "green"))
+        try:
+            process = subprocess.Popen(
+                command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE
+            )
+            output, error = process.communicate()
+            if output:
+                print(colored(output.decode()), "green")
+            if error:
+                sys.stderr.write(colored(error.decode()), "red")
+            with open(f"{tool_name}.txt", "a") as file:
+                file.write(output.decode())
+        except subprocess.CalledProcessError as e:
+            print(f"Command failed with return code {e.returncode}")
+            sys.exit()
+        except KeyboardInterrupt:
+            sys.stderr.write("[!] Pressed CTRL+C")
+            sleep(0.5)
+            sys.stderr.write("[!] Exiting...")
+            sys.exit()
+
+    def alterx(self):
+        sleep(1)
+        clearScreen()
+        tool_name = "alterx"
+        command = "{} -list {} -enrich".format(tool_name, self.target)
         print(colored("[+] Running {0} on {1}".format(tool_name, self.target), "green"))
         try:
             process = subprocess.Popen(
@@ -431,6 +458,11 @@ class Mode:
             sys.stderr.write("[!] Exiting...")
             sys.exit()
 
+    def alterxPermut(self):
+        sleep(1)
+        clearScreen()
+        tool_name = "alterx"
+        print("comming soon...")
     # change here
 
     def allModules(self):
@@ -475,6 +507,7 @@ def findSubDomains(target, modes):
         elif mode == "vita":
             p1.vita()
         elif mode == "subcat":
+            #pending
             p1.subcat()
         elif mode == "rapiddns":
             p1.rapiddns()
@@ -482,6 +515,11 @@ def findSubDomains(target, modes):
             p1.crtsh()
         elif mode == "jldc":
             p1.jldc()
+        elif mode == "alterx":
+            p1.alterx()
+        elif mode == "alterx_permut":
+            #pending
+            p1.alterxPermut()
         # change here
         elif mode == "all":
             p1.allModules()
