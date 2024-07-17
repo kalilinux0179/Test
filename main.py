@@ -109,8 +109,10 @@ def createDirectory(directory):
             os.makedirs(directory)
             print(colored("[-] {} Directory Created".format(directory), "cyan"))
             os.chdir(directory)
+            return True
         else:
             os.chdir(directory)
+            return True
     except OSError:
         sys.stderr.write(colored("[-] Unable to create {}".format(directory), "red"))
         sys.stderr.write(colored("Exiting...", "red"))
@@ -139,4 +141,5 @@ if __name__ == "__main__":
         os.system("cls")
     elif sys.platform.startswith("clear"):
         os.system("clear")
-    createDirectory("SubDomains")
+    if createDirectory("SubDomains"):
+        main()
