@@ -148,7 +148,7 @@ def findSubDomains(target, modes):
             p1.subfinder()
         elif mode == "assetfinder":
             p1.assetfinder()
-        elif mode == "ansmap":
+        elif mode == "asnmap":
             p1.asnmap()
         elif mode == "amass":
             p1.amass()
